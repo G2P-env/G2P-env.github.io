@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Qian Cheng" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Tutorial - G2P</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Tutorial";
+        var mkdocs_page_input_path = "Tutorial.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/rust.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> G2P
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../QuickStart/">QuickStart</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Tutorial</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#govs">GOVS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#genome-optimization-module">Genome optimization module</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#extraction-and-assembly-module">Extraction and assembly module</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#statistic-module">Statistic module</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#genome-selection-prediciton-module">Genome selection prediciton module</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#rrblup-model">rrBLUP model</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#gblup-model">GBLUP model</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#bins-map-construction-and-visualization">Bins map construction and visualization</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#construct-ibd-map">Construct IBD map</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#bins-map-construction-and-visualization_1">Bins map construction and visualization</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#visualization-of-ibd-map-results">Visualization of IBD map results</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#visualization-of-bins-data">Visualization of bins data</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#orther-useful-functions">Orther useful functions</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#transform-character-to-number">Transform character to number</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#computation-of-gca">Computation of GCA</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#computation-of-sca">Computation of SCA</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#distribution-correction">Distribution correction</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../details/">Details</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../about/">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">G2P</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Tutorial</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/GOVS-env/G2P/edit/master/docs/Tutorial.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="tutorial"><center>Tutorial</center></h1>
+<p><center>Function introduction and parameter information</center></p>
+<hr />
+<p>In this section, the functions in GOVS and thier parameters will be introducted in details.</p>
+<h2 id="govs">GOVS</h2>
+<ul>
+<li><em><strong><code>GOVS</code></strong></em></li>
+<li>Description</br>
+One-stop function for a complete progress of genome optimization</li>
+<li>Usage <br/>
+<code>GOVS(hmp,ID = NULL,pheno,trait,bins,binsInfo,output,module = "DES",designInfo = NULL)</code></li>
+<li>Arguments<ul>
+<li><code>hmp</code> The genetic data in hapmap format.</li>
+<li><code>ID</code> A character array regarding sample IDs for <code>hmp</code>, if NULL, the <code>hmp</code> data must involve header.</li>
+<li><code>pheno</code> Phenotypic data frame, the first column describes sample IDs.</li>
+<li><code>trait</code> The names of interest trait (The trait must be included in <code>Pheno</code> data frame).</li>
+<li><code>bins</code> Results of IBD analysis (bins matrix), each row represents a bin fragment as well as each column represents each sample.</li>
+<li><code>binsInfo</code> Data frame, including bins index, start, end, length of bins locus.</li>
+<li><code>output</code> The prefix of output files.</li>
+<li><code>module</code> Character represents the module combination for analysis, default "DES", "D" for genome optimization module, "E" for extraction &amp; assembly module. "S" for statistic module. "D","E","S","DE","DES" and "ES" are alternative for different module combinations. Note that different combination need different essential inputs, details see <a href="#genome-optimization-module"><code>genomeOptimization</code></a> <a href="#extraction-and-assembly-module"><code>extractGenome</code></a> <a href="#statistic-module"><code>statDesign</code></a>.</li>
+<li><code>designInfo</code> Data frame, the results of genome optimization module, it's necessary for "ES" and "S" module.
+<br/></li>
+</ul>
+</li>
+</ul>
+<h2 id="genome-optimization-module">Genome optimization module</h2>
+<ul>
+<li><em><strong><code>genomeOptimization</code></strong></em></li>
+<li>Description<br/>
+Virtual genome optimization based IBD(bins) data</li>
+<li>Usage <br/>
+<code>genomeOptimization(pheno, bins, trait, output)</code></li>
+<li>Arguments<ul>
+<li><code>Pheno</code> Phenotypic data frame, the first column describes sample names.</li>
+<li><code>bins</code> Results of IBD analysis (bins matrix), each row represents a bin fragment as well as each column represents each sample.</li>
+<li><code>trait</code> The names of interest trait (The trait must be included in <code>Pheno</code> data frame). </li>
+<li><code>output</code> The prefix of output files regarding the scheme of virtual genome.
+<br/></li>
+</ul>
+</li>
+</ul>
+<h2 id="extraction-and-assembly-module">Extraction and assembly module</h2>
+<ul>
+<li><em><strong><code>extractGenome</code></strong></em></li>
+<li>Description<br/>
+Extracting genome fragment from candidates based the results of genome optimization and then assembling all fragments so that produce optimized genome(virtual genome).</li>
+<li>Usage <br/>
+<code>extractGenome(hmp,binInfo,ID = NULL,designInfo,output,write = F,bins,extractContent ="Genotype")</code></li>
+<li>Arguments<ul>
+<li><code>hmp</code> The genetic data in hapmap format.</li>
+<li><code>binInfo</code> Data frame, including bins index, start, end, length of bins locus.</li>
+<li><code>ID</code> A character array regarding sample IDs for <code>hmp</code>, if NULL, the <code>hmp</code> data must involve header.</li>
+<li><code>designInfo</code> Outputs of [<code>genomeOptimization</code>]{#genome-optimization-module}, a matrix consists of sample IDs regarding the fragment source among condidates at each bin locus.</li>
+<li><code>write</code> Boolean, if write the assembled genome to file, default FALSE.</li>
+<li><code>bins</code> Results of IBD analysis (bins matrix), each row represents a bin fragment as well as each column represents each sample.</li>
+<li><code>extractContent</code> Character, the content of virtual genome, "Bin" for bin source well "Genotype" for genetic data, default "Genotype".
+<br/></li>
+</ul>
+</li>
+</ul>
+<h2 id="statistic-module">Statistic module</h2>
+<ul>
+<li><em><strong><code>statDesign</code></strong></em></li>
+<li>Description</br>
+Statistic summary for analysis of the contribution of all candidates to optimal genome. The results directly guide the lines selection and population improvement route.</li>
+<li>Usage <br/>
+<code>statDesign(designInfo,binInfo,pheno,trait,output)</code></li>
+<li>Arguments<ul>
+<li><code>designInfo</code> Outputs of <a href="#genome-optimization-module"><code>genomeOptimization</code></a>, a matrix consists of sample IDs regarding the fragment source among condidates at each bin locus.</li>
+<li><code>binInfo</code> Data frame, including bins index, start, end, length of bins locus.</li>
+<li><code>pheno</code> Phenotypic data frame, the first column describes sample names.</li>
+<li><code>trait</code> The names of interest trait (The trait must be included in <code>Pheno</code> data frame). </li>
+<li><code>output</code> The prefix of output files regarding the summary and statistic infomation via the process of genome optimization.
+<br/></li>
+</ul>
+</li>
+</ul>
+<h2 id="genome-selection-prediciton-module">Genome selection prediciton module</h2>
+<h5 id="rrblup-model">rrBLUP model</h5>
+<ul>
+<li><em><strong><code>SNPrrBLUP</code></strong></em></li>
+<li>Description</br>
+Genotpye-to-phenotype prediciton via ridge regression best linear unbiased prediction (rrBLUP) model. The inputs is genotypes.</li>
+<li>Usage <br/>
+<code>SNPrrBLUP(x,y,fix = NULL,idx1,idx2)</code></li>
+<li>Arguments<ul>
+<li><code>x</code> Genotypic matrix in numberic format (See <a href="#transform-character-to-number"><code>transHapmap2numeric</code></a>), row represents sample well column represents feature (SNP).</li>
+<li><code>y</code> An numeric array of phenotype.</li>
+<li><code>fix</code> A matrix containing other variables as fixed effects in mixed model.</li>
+<li><code>idx1</code> An array of index for training set</li>
+<li><code>idx2</code> An array of index for testing (predicted) set
+<br/></li>
+</ul>
+</li>
+</ul>
+<h5 id="gblup-model">GBLUP model</h5>
+<ul>
+<li><em><strong><code>GBLUP</code></strong></em></li>
+<li>Description</br>
+Genotpye-to-phenotype prediciton via genomic best linear unbiased prediction (GBLUP) model. The inputs is genotypes.</li>
+<li>Usage <br/>
+<code>GBLUP(amat,y,idx1,idx2,fix = NULL)</code></li>
+<li>Arguments<ul>
+<li><code>amat</code> Additive relationship matrix, which compute from genetic matrix.</li>
+<li><code>y</code> An numeric array of phenotype.</li>
+<li><code>fix</code> A matrix containing other variables as fixed effects in mixed model.</li>
+<li><code>idx1</code> An array of index for training set</li>
+<li><code>idx2</code> An array of index for testing (predicted) set
+<br/></li>
+</ul>
+</li>
+</ul>
+<h2 id="bins-map-construction-and-visualization">Bins map construction and visualization</h2>
+<h5 id="construct-ibd-map">Construct IBD map</h5>
+<ul>
+<li><em><strong><code>IBDConstruct</code></strong></em></li>
+<li>Description</br>
+A IBD map was constructed of contributions from the parents onto the progeny lines using a hidden Markov model (HMM). </li>
+<li>Usage <br/>
+<code>IBDConstruct(snpParents,snpProgeny,markerInfo,q,rou,G,threshold = NULL,omit = T)</code></li>
+<li>Arguments<ul>
+<li><code>snpParents</code> A matrix for the parents' genotype, lines in column and marker in row.</li>
+<li><code>snpProgeny</code> An array for the progeny' genotype, marker number must equal to snpParents.</li>
+<li><code>markerInfo</code> A matrix or dataframe with four cols(marker ID, allele, chromsome and physical position) regarding genotypic information.</li>
+<li><code>q</code> The quality of sequencing, range 0 to 1 to define the quality of marker.</li>
+<li><code>rou</code> Correlations between any pairs of flanking markers, that estimated with the offspring-LD level after corrected by parent-LD level, it can be obtained by genetic location.</li>
+<li><code>G</code> Generations that the offsprings decented from the parents.</li>
+<li><code>threshold</code> The threshold of posterior.</li>
+<li><code>omit</code> Whether to omit untraceable segments, default True.
+<br/></li>
+</ul>
+</li>
+</ul>
+<h2 id="bins-map-construction-and-visualization_1">Bins map construction and visualization</h2>
+<h5 id="visualization-of-ibd-map-results">Visualization of IBD map results</h5>
+<ul>
+<li><em><strong><code>binsPlot</code></strong></em></li>
+<li>Description</br>
+Visualization of IBD map results. </li>
+<li>Usage <br/>
+<code>binsPlot(IBDRes,color,parentInfo,parentNum)</code></li>
+<li>Arguments<ul>
+<li><code>IBDRes</code> The results of IBDConstruct, see <a href="#bins-map-construction-and-visualization"><code>IBDConstruct</code></a>.</li>
+<li><code>color</code> A named vector for defining color of parents.</li>
+<li><code>parentInfo</code> A named vector for defining label of parents.</li>
+<li><code>parentNum</code> The number of parents.
+<br/></li>
+</ul>
+</li>
+</ul>
+<h5 id="visualization-of-bins-data">Visualization of bins data</h5>
+<ul>
+<li><em><strong><code>mosaicPlot</code></strong></em></li>
+<li>Description</br>
+Visualization of overall bins data</li>
+<li>Usage <br/>
+<code>mosaicPlot(bins,binsInfo,chr,resolution = 500,list,parentNum = 24,color,clust = T,methods = "ward.D2",dist_method = "euclidean")</code></li>
+<li>Arguments<ul>
+<li><code>bins</code> Results of IBD analysis (bins matrix), each row represents a bin fragment as well as each column represents each sample.</li>
+<li><code>binsInfo</code> Data frame, including bins index, start, end, length of bins locus.</li>
+<li><code>chr</code> Which chromesome will be used to plot mosaic.</li>
+<li><code>resolution</code> To set the resolution of mosaic plot, default 500.</li>
+<li><code>list</code> The names of lines to visualize mosaic plot.</li>
+<li><code>parentNum</code> The number of parent, if color not defined, this parameter is used to auto generate color palette. </li>
+<li><code>color</code> A array to define color palette.</li>
+<li><code>clust</code> Boolean values determining if lines should be hclust object.</li>
+<li><code>methods</code> Clustering method used.</li>
+<li><code>dist_method</code> The distance measure to be used for clustering.
+<br/></li>
+</ul>
+</li>
+</ul>
+<h2 id="orther-useful-functions">Orther useful functions</h2>
+<h5 id="transform-character-to-number">Transform character to number</h5>
+<ul>
+<li><em><strong><code>transHapmap2numeric</code></strong></em></li>
+<li>Description</br>
+This function help users to transform genetic matrix from character format to numeric format. AA-0, Aa-1, aa-2, A is major allele and a is minor allele.</li>
+<li>Usage <br/>
+<code>transHapmap2numeric(G)</code></li>
+<li>Arguments<ul>
+<li><code>G</code> Genetic matrix of character, row represents sample and column represents SNP.
+<br/></li>
+</ul>
+</li>
+</ul>
+<h5 id="computation-of-gca">Computation of GCA</h5>
+<ul>
+<li><em><strong><code>gcaCompute</code></strong></em></li>
+<li>Description</br>
+Calculate parental general combining ability (GCA) based F1 phenotypic values. </li>
+<li>Usage <br/>
+<code>gcaCompute(phe_df,which,trait)</code></li>
+<li>Arguments<ul>
+<li><code>phe_df</code> Phenotypic data frame, row represents F1 combination and includes the paternal information in columns.</li>
+<li><code>which</code> The column index of male or female to compute parternal or maternal GCA.</li>
+<li><code>trait</code> A character string to define which trait GCA will be computed, this function support two or more phenotypic GCA be computed  at the same time.
+<br/></li>
+</ul>
+</li>
+</ul>
+<h5 id="computation-of-sca">Computation of SCA</h5>
+<ul>
+<li><em><strong><code>scaCompute</code></strong></em></li>
+<li>Description</br>
+Calculate hybrid special combining ability (SCA) based F1 phenotypic values.</li>
+<li>Usage <br/>
+<code>scaCompute(phe_df,which_male,which_female,trait,seqname)</code></li>
+<li>Arguments<ul>
+<li><code>phe_df</code> Phenotypic data frame, row represents F1 combination and includes the paternal information in columns.</li>
+<li><code>which_male</code> The column index of paternal IDs.</li>
+<li><code>which_female</code> The column index of maternal IDs.</li>
+<li><code>trait</code> A character string to define which trait GCA will be computed, this function support two or more phenotypic GCA be computed  at the same time.</li>
+<li><code>seqname</code>  A character array regarding hybrid IDs
+<br/></li>
+</ul>
+</li>
+</ul>
+<h5 id="distribution-correction">Distribution correction</h5>
+<ul>
+<li><em><strong><code>reviseFunc</code></strong></em></li>
+<li>Description</br>
+Scale two sets of data to a uniform distribution.</li>
+<li>Usage <br/>
+<code>reviseFunc(ori,aim,cut = 10,sample_names)</code></li>
+<li>Arguments<ul>
+<li><code>ori</code> A numeric array, as reference for correction.</li>
+<li><code>aim</code> A numeric array, which is the object to implement correction.</li>
+<li><code>cut</code> Number of intervals to cut, default 10.</li>
+<li><code>sample_names</code> A character array consits of <code>aim</code>'s name.
+<br/></li>
+</ul>
+</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../QuickStart/" class="btn btn-neutral float-left" title="QuickStart"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../details/" class="btn btn-neutral float-right" title="Details">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/GOVS-env/G2P/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../QuickStart/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../details/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
