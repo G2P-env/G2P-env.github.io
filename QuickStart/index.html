@@ -167,14 +167,14 @@ Singularity can be installed via Vagrant Boxes for Windows and Intel cores MacOS
 <p><img alt="#f03c15" src="https://placehold.co/15x15/f03c15/f03c15.png" /> <strong>Note</strong>: the functions, like <em>GSFiltering</em>, <em>GSImputation</em>, <em>GSTransForm</em>, <em>GSRead</em> shown in figure <a href="..">"Overview of G2P" a</a>  needs the opearation evironment and stand-alone software on the circle, namely， these function in G2P pcakage can't be performed normally unless the dependencis shown in figure <a href="..">"Overview of G2P" a</a> (upper semicircle) have been correctly installed and configuration. G2P package can be installed for MacOS, Linux and windows and the functions shown in figure <a href="..">"Overview of G2P" b</a> can run normally. <br/>
 1.  Github install</p>
 <pre><code class="language-R">## install dependencies and GOVS
-install.packages(c(&quot;ggplot2&quot;,&quot;brnn&quot;,&quot;glmnet&quot;,&quot;spls&quot;,&quot;pls&quot;,&quot;e1071&quot;,&quot;BGLR&quot;,&quot;rrBLUP&quot;,&quot;randomForest&quot;,&quot;hglm&quot;,&quot;hglm.data&quot;,&quot;parallel&quot;,&quot;pROC&quot;,&quot;PRROC&quot;,&quot;STPGA&quot;,&quot;reshape&quot;,&quot;reshape2&quot;,&quot;grid&quot;,&quot;pbapply&quot;,&quot;pheatmap&quot;))
+install.packages(c(&quot;ggplot2&quot;,&quot;brnn&quot;,&quot;glmnet&quot;,&quot;spls&quot;,&quot;pls&quot;,&quot;e1071&quot;,&quot;BGLR&quot;,&quot;rrBLUP&quot;,&quot;randomForest&quot;,&quot;hglm&quot;,&quot;hglm.data&quot;,&quot;parallel&quot;,&quot;pROC&quot;,&quot;PRROC&quot;,&quot;STPGA&quot;,&quot;reshape&quot;,&quot;reshape2&quot;,&quot;grid&quot;,&quot;pbapply&quot;,&quot;pheatmap&quot;,&quot;data.table&quot;))
 
 require(&quot;devtools&quot;)
 install_github(&quot;G2P-env/G2P&quot;) 
 </code></pre>
 <p>2.Download <a href="https://github.com/G2P-env/G2P/raw/main/G2P_1.0.tar.gz">.tar.gz package</a> and install <br/></p>
 <pre><code class="language-R">## install dependencies and GOVS with bult-in vignette
-install.packages(c(&quot;ggplot2&quot;,&quot;brnn&quot;,&quot;glmnet&quot;,&quot;spls&quot;,&quot;pls&quot;,&quot;e1071&quot;,&quot;BGLR&quot;,&quot;rrBLUP&quot;,&quot;randomForest&quot;,&quot;hglm&quot;,&quot;hglm.data&quot;,&quot;parallel&quot;,&quot;pROC&quot;,&quot;PRROC&quot;,&quot;STPGA&quot;,&quot;reshape&quot;,&quot;reshape2&quot;,&quot;grid&quot;,&quot;pbapply&quot;,&quot;pheatmap&quot;))
+install.packages(c(&quot;ggplot2&quot;,&quot;brnn&quot;,&quot;glmnet&quot;,&quot;spls&quot;,&quot;pls&quot;,&quot;e1071&quot;,&quot;BGLR&quot;,&quot;rrBLUP&quot;,&quot;randomForest&quot;,&quot;hglm&quot;,&quot;hglm.data&quot;,&quot;parallel&quot;,&quot;pROC&quot;,&quot;PRROC&quot;,&quot;STPGA&quot;,&quot;reshape&quot;,&quot;reshape2&quot;,&quot;grid&quot;,&quot;pbapply&quot;,&quot;pheatmap&quot;,&quot;data.table&quot;))
 
 install.packages(&quot;DownloadPath/GOVS_1.0.tar.gz&quot;)
 </code></pre>
@@ -189,7 +189,7 @@ Then R can be used as usual.</p>
 library(G2P)
 
 ## load example data ##
-data(cubic)
+data(&quot;cubic&quot;)
 
 ## perform genotype to phenotype prediction with all integrated methods ## 
 C2Pres &lt;- G2P(markers = Markers,data = pheData,trait = &quot;DTT&quot;,
@@ -198,7 +198,7 @@ C2Pres &lt;- G2P(markers = Markers,data = pheData,trait = &quot;DTT&quot;,
                                 &quot;RR&quot;, &quot;RKHS&quot;, &quot;BRNN&quot;),trainIdx = 1:200,predIdx = 201:400)
 </code></pre>
 <h3 id="2-using-g2p-to-run-rscrit">2. Using G2P to run Rscrit</h3>
-<pre><code class="language-R">data(cubic)
+<pre><code class="language-R">data(&quot;cubic&quot;)
 
 ## perform genotype to phenotype prediction ## 
 C2Pres &lt;- G2P(markers = Markers,data = pheData,trait = &quot;DTT&quot;,

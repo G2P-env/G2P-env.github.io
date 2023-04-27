@@ -59,6 +59,10 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#filtering-of-genotypic-data">Filtering of genotypic data</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#imputation-of-the-larger-genotypic-data">Imputation of the larger genotypic data</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#fast-read-of-the-larger-genotypic-data">Fast read of the larger genotypic data</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#data-quality-control-of-genomic-selection">Data quality control of genomic selection</a>
     </li>
         </ul>
@@ -123,7 +127,7 @@
 <ul>
 <li><em><strong><code>GSTransForm</code></strong></em></li>
 <li>Description</br>
-The function can only be used in G2P-sif.By calling other external software like VCFtools Plink TASSEL etc for the transition of genotype format</li>
+The function can only be used in G2P-sif. By calling other external software like VCFtools Plink TASSEL etc for the transition of genotype format</li>
 <li>Usage <br/>
 <code>GSTransForm(pattern, input, output, workdir = "./", memory = 8 )</code></li>
 <li>Arguments<ul>
@@ -137,7 +141,7 @@ The function can only be used in G2P-sif.By calling other external software like
 </li>
 </ul>
 <p>Example</p>
-<pre><code class="language-R">load(cubic_hmp)
+<pre><code class="language-R">data(&quot;cubic_hmp&quot;)
 setwd(&quot;./&quot;)
 write.table(hmp,file = &quot;test.hmp.txt&quot;,row.names = F,col.names = T,sep = &quot;\t&quot;,quote = F)
 
@@ -148,7 +152,7 @@ GSTransForm(pattern=&quot;hmp2plink&quot;,input=&quot;test.hmp.txt&quot;,output=
 <ul>
 <li><em><strong><code>GSFiltering</code></strong></em></li>
 <li>Description<br/>
-The function can raduce genotypic data by calling Plink.</li>
+The function can only be used in G2P-sif that can raduce genotypic data by calling Plink.</li>
 <li>Usage <br/>
 <code>GSFiltering(input, output , 
             inputformat = "hmp", missingRate = 0, 
@@ -156,7 +160,7 @@ The function can raduce genotypic data by calling Plink.</li>
 <li>Arguments<ul>
 <li><code>input</code>(character) name of original file, prefix for plink, full name for hapmap and vcf.</li>
 <li><code>output</code>(character) name of original file, prefix for all.</li>
-<li><code>inputformat</code>(character) the in file format of input file, "hmp" for hapmap,"vcf" VCF or "plink" for bed,bim,fam.</li>
+<li><code>inputformat</code>(character) file format of input file, "hmp" for hapmap,"vcf" VCF or "plink" for bed,bim,fam.</li>
 <li><code>missingRate</code>(numeric [0-1]) filters out all variants with missing call rates exceeding the provided value to be removed</li>
 <li><code>maf</code>(numeric [0-1]) filters out all variants with minor allele frequency below the provided threshold (default 0.05)</li>
 <li><code>window</code>(numeric or character) window size in variant count (numeric) or kilobase (if the 'kb' modifier is present). </li>
@@ -170,7 +174,7 @@ The function can raduce genotypic data by calling Plink.</li>
 </ul>
 <p>Example</p>
 <pre><code class="language-R">## load example data ##
-load(cubic_hmp)
+data(&quot;cubic_hmp&quot;)
 setwd(&quot;./&quot;)
 write.table(hmp,file = &quot;test.hmp.txt&quot;,row.names = F,col.names = T,sep = &quot;\t&quot;,quote = F)
 
@@ -179,6 +183,78 @@ GSFiltering(input = &quot;test.hmp.txt&quot;, output = &quot;filter_res&quot;,
             inputformat = &quot;hmp&quot;, missingRate = 0, 
             maf = 0.05,window = 100,step = 5,r2 = 0.1)
 </code></pre>
+<h3 id="imputation-of-the-larger-genotypic-data">Imputation of the larger genotypic data</h3>
+<ul>
+<li><em><strong><code>GSImputation</code></strong></em></li>
+<li>Description<br/>
+The function can only be used in G2P-sif that can execute imputation of genotypic data by calling Beagle.</li>
+<li>Usage <br/>
+<code>GSImputation(input, output, inputformat, workdir = "./", 
+             memory = 8,threads = 1,window = 40,overlap = 2)</code></li>
+<li>Arguments<ul>
+<li><code>input</code>(character) name of original file, prefix for plink, full name for hapmap and vcf.</li>
+<li><code>output</code>(character) name of original file, prefix for all.</li>
+<li><code>inputformat</code>(character) file format of input file, "hmp" for hapmap,"vcf" VCF or "plink" for bed,bim,fam.</li>
+<li><code>memory</code>(numeric) set memory size, GB.</li>
+<li><code>threads</code>(numeric) specifies the number of computational threads that will be used.</li>
+<li><code>window</code>(numeric) specifies the cM length of each sliding window (default: 40).</li>
+<li><code>overlap</code>(numeric) specifies the cM length of overlap between adjacent sliding windows(default: 2).</li>
+<li><code>workdir</code>(character) set working directory.
+<br/></li>
+</ul>
+</li>
+</ul>
+<p>Example</p>
+<pre><code class="language-R">## load example data ##
+data(&quot;cubic_hmp&quot;)
+setwd(&quot;./&quot;)
+
+## generating NA to data
+hmp_NA &lt;- as.matrix(hmp[,-c(1:11)])
+hmp_NA[sample(1:length(hmp_NA),1000000)] &lt;- &quot;NN&quot;
+hmp_NA &lt;- cbind(hmp[,1:11],hmp_NA)
+write.table(hmp_NA,file = &quot;test_NA.hmp.txt&quot;,row.names = F,col.names = T,sep = &quot;\t&quot;,quote = F)
+
+## imputation 
+GSImputation(input = &quot;test_NA.hmp.txt&quot;, output = &quot;impute_res_NA&quot;,
+             workdir = &quot;./&quot;, inputformat = &quot;hmp&quot;)
+</code></pre>
+<h3 id="fast-read-of-the-larger-genotypic-data">Fast read of the larger genotypic data</h3>
+<ul>
+<li><em><strong><code>GSRead</code></strong></em></li>
+<li>Description<br/>
+The function can only be used in G2P-sif that can fast read the larger genotypic data in PLINK HapMap and VCF format, convert it to numeric format (0 1 2) by calling Plink.</li>
+<li>Usage <br/></li>
+</ul>
+<pre><code>GSRead(input, output, inputformat, workdir = &quot;./&quot;, memory = 8)
+</code></pre>
+<ul>
+<li>Arguments<ul>
+<li><code>input</code>(character) name of original file, prefix for plink, full name for hapmap and vcf.</li>
+<li><code>output</code>(character) name of original file, prefix for all.</li>
+<li><code>inputformat</code>(character) file format of input file, "hmp" for hapmap,"vcf" VCF or "plink" for bed,bim,fam.</li>
+<li><code>memory</code>(numeric) set memory size, GB.</li>
+<li><code>workdir</code>(character) set working directory.
+<br/></li>
+</ul>
+</li>
+</ul>
+<p>Example</p>
+<pre><code class="language-R">## load example data ##
+library(G2P)
+data(&quot;cubic_hmp&quot;)
+setwd(&quot;./&quot;)
+write.table(hmp,file = &quot;test.hmp.txt&quot;,row.names = F,col.names = T,sep = &quot;\t&quot;,quote = F)
+
+## filtering 
+G &lt;- GSRead(input = &quot;test.hmp.txt&quot;, output = &quot;read_tmp&quot;, 
+     inputformat = &quot;hmp&quot;, workdir = &quot;./&quot;, memory = 8)
+
+## show genotypic in numeric
+dim(G)
+G[1:10,1:10]
+</code></pre>
+<p><img alt="fig 10" src="../img/GSread.jpg" title="The example results of GSRead" />  <center>The example results of GSRead</center></p>
 <h3 id="data-quality-control-of-genomic-selection">Data quality control of genomic selection</h3>
 <ul>
 <li><em><strong><code>GSDataQC</code></strong></em></li>
@@ -281,7 +357,7 @@ The function fits genomic selection models, performs prediction and exports the 
 </ul>
 <p>Example</p>
 <pre><code class="language-R">## load example data ##
-data(cubic)
+data(&quot;cubic&quot;)
 
 ## perform genotype to phenotype prediction with all integrated methods ## 
 C2Pres &lt;- G2P(markers = Markers,data = pheData,trait = &quot;DTT&quot;,
@@ -298,7 +374,7 @@ C2Pres_outmodel &lt;- G2P(markers = Markers,data = pheData,trait = &quot;DTT&quo
 ## add other information as fix effects ## 
 ## fix effects not permit NA, so impute NA first.
 data &lt;- pheData
-data &lt;- apply(data[,-1], 2,function(x){x[which(is.na(x) == T)] &lt;- mean(x,na.rm = T);x)
+data &lt;- apply(data[,-1], 2,function(x){x[which(is.na(x) == T)] &lt;- mean(x,na.rm = T);x})
 data &lt;- as.data.frame(data)
 data$EW &lt;- pheData$EW
 
@@ -333,11 +409,11 @@ The function achieve cross-validation for integrated GS models.</li>
 </ul>
 <p>Example</p>
 <pre><code class="language-R">## load example data ##
-data(cubic)
+data(&quot;cubic&quot;)
 
 ## perform a 2 times 5-fold cross-validation  ##
 predlist &lt;- G2PCrossValidation(cross = 5,seed = 1, cpus = 1, times = 2, markers = Markers[1:200,],
-                data = pheData[1:200,], trait = &quot;DTT&quot; modelMethods = c(&quot;rrBLUP&quot;, &quot;spls&quot;),
+                data = pheData[1:200,], trait = &quot;DTT&quot;, modelMethods = c(&quot;rrBLUP&quot;, &quot;spls&quot;),
                 outputModel = FALSE)
 </code></pre>
 <h3 id="evaluation">Evaluation</h3>
@@ -362,7 +438,7 @@ The function consolidates 13 evaluation metrics to evaluete the performance of g
 </li>
 </ul>
 <p>Example</p>
-<pre><code class="language-R">data(cubic)
+<pre><code class="language-R">data(&quot;cubic&quot;)
 ########## prediction ############
 C2Pres &lt;- G2P(markers = Markers,data = pheData,trait = &quot;EW&quot;,
               modelMethods = c(&quot;BayesA&quot;, &quot;BRR&quot;, &quot;RRBLUP&quot;,
@@ -390,7 +466,7 @@ The function provides a strategy to integrate the results of two or more methods
 </li>
 </ul>
 <p>Example</p>
-<pre><code class="language-R">data(cubic)
+<pre><code class="language-R">data(&quot;cubic&quot;)
 
 ## Genotype-to-phenotype ##
 G2Pres &lt;- G2P(markers = Markers,data = pheData,trait = &quot;EW&quot;,
@@ -424,7 +500,7 @@ Results integration of multiple GS methods</li>
 </ul>
 <p>Example</p>
 <pre><code class="language-R">## load example data ##
-data(cubic)
+data(&quot;cubic&quot;)
 
 ## Genotype-to-phenotype ##
 G2Pres &lt;- G2P(markers = Markers,data = pheData,trait = &quot;EW&quot;,
@@ -470,7 +546,7 @@ Refining the training set for selective phenotyping to reduce cost.</li>
 </ul>
 <p>Example</p>
 <pre><code class="language-R">## load example data ##
-data(cubic)
+data(&quot;cubic&quot;)
 
 ## reference-free refinement ##
 G &lt;- Markers[1:300,]
