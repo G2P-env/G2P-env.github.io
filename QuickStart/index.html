@@ -55,7 +55,7 @@
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#1-installation-of-singularity-linux-assuming-ubuntu">1. Installation of Singularity (Linux, assuming ubuntu) </a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#2-pulling-g2p-container">2. Pulling G2P container</a>
+    <li class="toctree-l3"><a class="reference internal" href="#2-pull-g2p-container">2. Pull G2P container</a>
     </li>
         </ul>
     </li>
@@ -63,11 +63,11 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#usage-of-g2p-container">Usage of G2P container</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#1-using-g2p-for-interactive-window">1. Using G2P for interactive window</a>
+    <li class="toctree-l3"><a class="reference internal" href="#1-use-g2p-for-interactive-window">1. Use G2P for interactive window</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#2-using-g2p-to-run-rscrit">2. Using G2P to run Rscrit</a>
+    <li class="toctree-l3"><a class="reference internal" href="#2-use-g2p-to-run-rscript">2. Use G2P to run Rscript</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#3-using-g2p-container-run-stand-alone-software">3 Using G2P Container run stand-alone software</a>
+    <li class="toctree-l3"><a class="reference internal" href="#3-use-g2p-container-to-run-stand-alone-software">3 Use G2P Container to run stand-alone software</a>
     </li>
         </ul>
     </li>
@@ -100,7 +100,7 @@
     <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
       <li>QuickStart</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/GOVS-env/G2P/edit/master/docs/QuickStart.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/G2P-env/G2P/edit/master/docs/QuickStart.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -111,7 +111,7 @@
                 <h1 id="quickstart"><center>Quickstart</center></h1>
 <p><center>Installation and quickstart</center></p>
 <hr />
-<p>This section mainly recommends the installation of G2P and briefly introduces some typical usage of G2P container and G2P package to help users get started quickly. Details and other functions of GOVS,please see <a href="../Tutorial/">Tutorial</a></p>
+<p>This section is mainly intended for the installation of G2P and the briefly introduction of several typical usage of G2P to help users get started quickly. Details and other functions of G2P, please see <a href="../Tutorial/">Tutorial</a></p>
 <h2 id="installation">Installation</h2>
 <hr />
 <h2 id="installation-of-g2p-container">Installation of G2P container</h2>
@@ -129,19 +129,16 @@
     git \
     cryptsetup
 </code></pre>
-<p>1.2 Installing GO</p>
+<p>1.2 Install GO</p>
 <pre><code class="language-bash">$ export VERSION=1.16.4 OS=linux ARCH=amd64 &amp;&amp; \  # Replace the values as needed
   wget https://dl.google.com/go/go$VERSION.$OS-$ARCH.tar.gz &amp;&amp; \ # Downloads the required Go package
   sudo tar -C /usr/local -xzvf go$VERSION.$OS-$ARCH.tar.gz &amp;&amp; \ # Extracts the archive
   rm go$VERSION.$OS-$ARCH.tar.gz    # Deletes the ``tar`` file
 </code></pre>
-<p><img alt="#f03c15" src="https://placehold.co/15x15/f03c15/f03c15.png" /> <strong>Note</strong>: you can vist <a href="https://go.dev/dl/">Go Downloads page</a> for suitable to the environment you are in</p>
-<pre><code>
-1.3 Installing Singularity
-You can download SingularityCE from one of the releases. To see a full list, visit the [GitHub release page](https://github.com/sylabs/singularity/releases). After deciding on a release to install, you can run the following commands to proceed with the installation (here we use version 3.8.1 as example).
-
-```bash
-$ export VERSION=3.8.1 &amp;&amp; # adjust this as necessary \
+<p><img alt="#f03c15" src="https://placehold.co/15x15/f03c15/f03c15.png" /> <strong>Note</strong>: You can visit <a href="https://go.dev/dl/">Go Downloads page</a> for suitable installation steps of your operating system.</p>
+<p>1.3 Install Singularity</p>
+<p>You can download SingularityCE from one of the releases. Please visit <a href="https://github.com/sylabs/singularity/releases">GitHub release page</a> for the full list. Once you make the decision, you can run the following commands to proceed with the installation (here, we use the version 3.8.1 as example).</p>
+<pre><code class="language-bash">$ export VERSION=3.8.1 &amp;&amp; # adjust this as necessary \
     wget https://github.com/sylabs/singularity/releases/download/v${VERSION}/singularity-ce-${VERSION}.tar.gz &amp;&amp; \
     tar -xzf singularity-ce-${VERSION}.tar.gz &amp;&amp; \
     cd singularity-ce-${VERSION}
@@ -157,33 +154,43 @@ GOPROXY := https://goproxy.cn,direct
 ## At the same time， motify the global proxy
 go env -w GOPROXY=https://goproxy.cn,direct
 </code></pre>
-<p>1.5 Installing Singularity for other operating system
+<p>1.5 Install Singularity for other operating system
 Singularity can be installed via Vagrant Boxes for Windows and Intel cores MacOS, the details please refer to <a href="https://docs.sylabs.io/guides/3.8/admin-guide/installation.html#installation-on-windows-or-mac">Singularity installation guide</a>.</p>
-<h3 id="2-pulling-g2p-container">2. Pulling G2P container</h3>
+<h3 id="2-pull-g2p-container">2. Pull G2P container</h3>
 <pre><code class="language-bash">singularity pull G2P.sif library://mym89757/repo/g2p:latest
 </code></pre>
 <hr />
 <h2 id="installation-of-g2p-r-package">Installation of G2P R package</h2>
-<p><img alt="#f03c15" src="https://placehold.co/15x15/f03c15/f03c15.png" /> <strong>Note</strong>: the functions, like <em>GSFiltering</em>, <em>GSImputation</em>, <em>GSTransForm</em>, <em>GSRead</em> shown in figure <a href="..">"Overview of G2P" a</a>  needs the opearation evironment and stand-alone software on the circle, namely， these function in G2P pcakage can't be performed normally unless the dependencis shown in figure <a href="..">"Overview of G2P" a</a> (upper semicircle) have been correctly installed and configuration. G2P package can be installed for MacOS, Linux and windows and the functions shown in figure <a href="..">"Overview of G2P" b</a> can run normally. <br/>
-1.  Github install</p>
-<pre><code class="language-R">## install dependencies and GOVS
+<p><img alt="#f03c15" src="https://placehold.co/15x15/f03c15/f03c15.png" /> <strong>Note</strong>: The following functions, including <em>GSFiltering</em>, <em>GSImputation</em>, <em>GSTransForm</em>, <em>GSRead</em> shown in figure <a href="https://github.com/G2P-env/G2P/blob/main/figures/Fig%201.png">"Overview of G2P" a</a> needs the opearation evironment and stand-alone software on the circle, namely, these function in G2P pcakage can't be performed normally unless the dependencis shown in figure <a href="https://github.com/G2P-env/G2P/blob/main/figures/Fig%201.png">"Overview of G2P" a </a>(upper semicircle) have been correctly installed and configuration. G2P package can be installed for MacOS, Linux and Windows and the functions shown in figure <a href="https://github.com/G2P-env/G2P/blob/main/figures/Fig%201.png">"Overview of G2P" b</a> can run normally. <br/>
+1. Install G2P through Github</p>
+<pre><code class="language-R">## install dependencies and G2P
 install.packages(c(&quot;ggplot2&quot;,&quot;brnn&quot;,&quot;glmnet&quot;,&quot;spls&quot;,&quot;pls&quot;,&quot;e1071&quot;,&quot;BGLR&quot;,&quot;rrBLUP&quot;,&quot;randomForest&quot;,&quot;hglm&quot;,&quot;hglm.data&quot;,&quot;parallel&quot;,&quot;pROC&quot;,&quot;PRROC&quot;,&quot;STPGA&quot;,&quot;reshape&quot;,&quot;reshape2&quot;,&quot;grid&quot;,&quot;pbapply&quot;,&quot;pheatmap&quot;,&quot;data.table&quot;))
+
+## install package qtlDesign
+install.packages(path_of_qtlDesign, repos = NULL, type=&quot;source&quot;)
+## e.g. &quot;/home/Download/qtlDesign_0.941.tar.gz&quot;
 
 require(&quot;devtools&quot;)
 install_github(&quot;G2P-env/G2P&quot;) 
 </code></pre>
+<p>qtlDesign <a href="https://github.com/G2P-env/G2P/raw/main/qtlDesign_0.941.tar.gz">download link</a></p>
 <p>2.Download <a href="https://github.com/G2P-env/G2P/raw/main/G2P_1.0.tar.gz">.tar.gz package</a> and install <br/></p>
-<pre><code class="language-R">## install dependencies and GOVS with bult-in vignette
+<pre><code class="language-R">## install dependencies and G2P
 install.packages(c(&quot;ggplot2&quot;,&quot;brnn&quot;,&quot;glmnet&quot;,&quot;spls&quot;,&quot;pls&quot;,&quot;e1071&quot;,&quot;BGLR&quot;,&quot;rrBLUP&quot;,&quot;randomForest&quot;,&quot;hglm&quot;,&quot;hglm.data&quot;,&quot;parallel&quot;,&quot;pROC&quot;,&quot;PRROC&quot;,&quot;STPGA&quot;,&quot;reshape&quot;,&quot;reshape2&quot;,&quot;grid&quot;,&quot;pbapply&quot;,&quot;pheatmap&quot;,&quot;data.table&quot;))
 
-install.packages(&quot;DownloadPath/GOVS_1.0.tar.gz&quot;)
+## install package qtlDesign
+install.packages(path_of_qtlDesign, repos = NULL, type=&quot;source&quot;)
+## e.g. &quot;/home/Download/qtlDesign_0.941.tar.gz&quot;
+
+install.packages(&quot;DownloadPath/G2P_1.0.tar.gz&quot;)
 </code></pre>
+<p>qtlDesign <a href="https://github.com/G2P-env/G2P/raw/main/qtlDesign_0.941.tar.gz">download link</a></p>
 <hr />
 <h2 id="usage-of-g2p-container">Usage of G2P container</h2>
-<h3 id="1-using-g2p-for-interactive-window">1. Using G2P for interactive window</h3>
+<h3 id="1-use-g2p-for-interactive-window">1. Use G2P for interactive window</h3>
 <pre><code class="language-bash">$singularity exec G2P.sif R
 </code></pre>
-<p><img alt="fig 2" src="../img/singularit_R.jpg" title="G2P Container run R" />  <center>G2P Container run R</center>
+<p><img alt="fig 2" src="../img/R_example.jpg" title="G2P Container run R" />  <center>G2P Container run R</center>
 Then R can be used as usual.</p>
 <pre><code class="language-R">## library G2P package
 library(G2P)
@@ -197,20 +204,28 @@ C2Pres &lt;- G2P(markers = Markers,data = pheData,trait = &quot;DTT&quot;,
                                 &quot;RKHS&quot;, &quot;RRBLUP&quot;,&quot;LASSO&quot;, &quot;SPLS&quot;, &quot;SVC&quot;, &quot;SVR&quot;, &quot;RFR&quot;, &quot;RFC&quot;,
                                 &quot;RR&quot;, &quot;RKHS&quot;, &quot;BRNN&quot;),trainIdx = 1:200,predIdx = 201:400)
 </code></pre>
-<h3 id="2-using-g2p-to-run-rscrit">2. Using G2P to run Rscrit</h3>
-<pre><code class="language-R">data(&quot;cubic&quot;)
+<h3 id="2-use-g2p-to-run-rscript">2. Use G2P to run Rscript</h3>
+<pre><code class="language-R">## perform genotype to phenotype prediction ## 
+suppressPackageStartupMessages(library(G2P))
+print(&quot;G2P has been loaded successfully&quot;)
 
-## perform genotype to phenotype prediction ## 
-C2Pres &lt;- G2P(markers = Markers,data = pheData,trait = &quot;DTT&quot;,
-               modelMethods = c(&quot;BayesA&quot;,&quot;RRBLUP&quot;, &quot;SPLS&quot;),trainIdx = 1:200,predIdx = 201:400)
+## Load example data ##
+data(&quot;cubic&quot;)
 
-write.table(G2Pres,file = &quot;predRes.txt&quot;,quote = F,col.names = T)
+## Fit RRBLUP model ##
+RRBLUP_model &lt;- GSReModel(markers = Markers[1:200,], pheVal = pheData$DTT[1:200], modelMethods = &quot;RRBLUP&quot;)
+
+## Predict 201-400 subset of all example data with already RRBLUP model ##
+res &lt;- predictGS(testMat = Markers[201:400,], trainModel = RRBLUP_model, modelMethods = &quot;RRBLUP&quot;)
+
+print(&quot;Prediction is down&quot;)
+res[1:10]
 </code></pre>
 <p>Saving above scripts or your own scripts to an R scripts file *.r (e.g. predGS_test.r), Then use G2P container to run it.</p>
 <pre><code class="language-bash">$singularity exec G2P.sif Rscript predGS_test.r
 </code></pre>
-<p><img alt="fig 2" src="../img/singularit_R.jpg" title="G2P Container run R" />  <center>G2P Container run R</center></p>
-<h3 id="3-using-g2p-container-run-stand-alone-software">3 Using G2P Container run stand-alone software</h3>
+<p><img alt="fig 2" src="../img/Rscript_example.jpg" title="G2P Container run Rscript" />  <center>G2P Container run Rscript</center></p>
+<h3 id="3-use-g2p-container-to-run-stand-alone-software">3 Use G2P Container to run stand-alone software</h3>
 <ul>
 <li>Plink</li>
 </ul>
@@ -255,6 +270,7 @@ write.table(G2Pres,file = &quot;predRes.txt&quot;,quote = F,col.names = T)
 
 ls(&quot;package:G2P&quot;)
 </code></pre>
+<p><img alt="fig 9" src="../img/consle.jpg" title="G2P Container run vcftools" />  <center>Interface of Rstudio</center></p>
               
             </div>
           </div><footer>
@@ -283,7 +299,7 @@ ls(&quot;package:G2P&quot;)
   <span class="rst-current-version" data-toggle="rst-current-version">
     
         <span>
-          <a href="https://github.com/GOVS-env/G2P/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+          <a href="https://github.com/G2P-env/G2P/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
         </span>
     
     

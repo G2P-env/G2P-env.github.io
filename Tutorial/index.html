@@ -53,11 +53,11 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="./">Tutorial</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#input-files-and-data-preprocessing">Input files and data preprocessing</a>
+    <li class="toctree-l2"><a class="reference internal" href="#files-input-and-data-preprocessing">Files input and data preprocessing</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#format-conversion-of-genotypic-data">Format conversion of genotypic data</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#filtering-of-genotypic-data">Filtering of genotypic data</a>
+    <li class="toctree-l3"><a class="reference internal" href="#filter-genotypic-data">Filter genotypic data</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#imputation-of-the-larger-genotypic-data">Imputation of the larger genotypic data</a>
     </li>
@@ -85,7 +85,7 @@
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#refinement-design-of-training-dataset">Refinement design of training dataset</a>
+    <li class="toctree-l2"><a class="reference internal" href="#refinement-design-of-training-set">Refinement design of training set</a>
     </li>
     </ul>
                 </li>
@@ -110,7 +110,7 @@
     <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
       <li>Tutorial</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/GOVS-env/G2P/edit/master/docs/Tutorial.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/G2P-env/G2P/edit/master/docs/Tutorial.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -119,23 +119,23 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="tutorial"><center>Tutorial</center></h1>
-<p><center>Introduction of main functions and parameter information</center></p>
+<p><center>Introduction of main functions of G2P</center></p>
 <hr />
-<p>In this section, the main functions in G2P and thier parameters will be introducted in details.</p>
-<h2 id="input-files-and-data-preprocessing">Input files and data preprocessing</h2>
+<p>This section is intended for running main functions of G2P.</p>
+<h2 id="files-input-and-data-preprocessing">Files input and data preprocessing</h2>
 <h3 id="format-conversion-of-genotypic-data">Format conversion of genotypic data</h3>
 <ul>
 <li><em><strong><code>GSTransForm</code></strong></em></li>
 <li>Description</br>
-The function can only be used in G2P-sif. By calling other external software like VCFtools Plink TASSEL etc for the transition of genotype format</li>
+The function can only be used in G2P-sif. By calling external software like VCFtools Plink and TASSEL etc for the genotype format conversion.</li>
 <li>Usage <br/>
 <code>GSTransForm(pattern, input, output, workdir = "./", memory = 8 )</code></li>
 <li>Arguments<ul>
-<li><code>pattern</code>(character) pattern of transformation, including "hmp2plink","plink2vcf","vcf2hmp","vcf2plink","plink2hmp", and "hmp2vcf".</li>
-<li><code>input</code>(character) name of original file, prefix for plink, full name for hapmap and vcf.</li>
+<li><code>pattern</code>(character) pattern of transformation, including "hmp2plink", "plink2vcf", "vcf2hmp", "vcf2plink", "plink2hmp", and "hmp2vcf".</li>
+<li><code>input</code>(character) name of original file, prefix for plink, full name for Hapmap format and VCF format.</li>
 <li><code>output</code>(character) name of original file, prefix for all.</li>
-<li><code>workdir</code>(character) set working directory</li>
-<li><code>memory</code>(integer) set memory size 
+<li><code>workdir</code>(character) set working directory.</li>
+<li><code>memory</code>(integer) set memory size.
 <br/></li>
 </ul>
 </li>
@@ -148,7 +148,7 @@ write.table(hmp,file = &quot;test.hmp.txt&quot;,row.names = F,col.names = T,sep 
 ## transformation ##
 GSTransForm(pattern=&quot;hmp2plink&quot;,input=&quot;test.hmp.txt&quot;,output=&quot;h2p&quot;,workdir=&quot;./&quot;)
 </code></pre>
-<h3 id="filtering-of-genotypic-data">Filtering of genotypic data</h3>
+<h3 id="filter-genotypic-data">Filter genotypic data</h3>
 <ul>
 <li><em><strong><code>GSFiltering</code></strong></em></li>
 <li>Description<br/>
@@ -158,16 +158,16 @@ The function can only be used in G2P-sif that can raduce genotypic data by calli
             inputformat = "hmp", missingRate = 0, 
             maf = 0.05,window = 100,step = 5,r2 = 0.1)</code></li>
 <li>Arguments<ul>
-<li><code>input</code>(character) name of original file, prefix for plink, full name for hapmap and vcf.</li>
+<li><code>input</code>(character) name of original file, prefix for plink, full name for Hapmap format and VCF format.</li>
 <li><code>output</code>(character) name of original file, prefix for all.</li>
-<li><code>inputformat</code>(character) file format of input file, "hmp" for hapmap,"vcf" VCF or "plink" for bed,bim,fam.</li>
-<li><code>missingRate</code>(numeric [0-1]) filters out all variants with missing call rates exceeding the provided value to be removed</li>
-<li><code>maf</code>(numeric [0-1]) filters out all variants with minor allele frequency below the provided threshold (default 0.05)</li>
+<li><code>inputformat</code>(character) file format of input file, "hmp" for hapmap,"vcf" VCF or "plink" for bed, bim, fam.</li>
+<li><code>missingRate</code>(numeric [0-1]) filters out all variants with missing call rates exceeding the provided value to be removed.</li>
+<li><code>maf</code>(numeric [0-1]) filters out all variants with minor allele frequency below the provided threshold (default 0.05).</li>
 <li><code>window</code>(numeric or character) window size in variant count (numeric) or kilobase (if the 'kb' modifier is present). </li>
-<li><code>step</code>(numeric) variant count to shift the window at the end of each step</li>
+<li><code>step</code>(numeric) variant count to shift the window at the end of each step.</li>
 <li><code>r2</code>(numeric) pairwise r2 threshold: at each step.</li>
-<li><code>workdir</code>(character) set working directory</li>
-<li><code>memory</code>(integer) set memory size 
+<li><code>workdir</code>(character) set working directory.</li>
+<li><code>memory</code>(integer) set memory size.
 <br/></li>
 </ul>
 </li>
@@ -178,7 +178,7 @@ data(&quot;cubic_hmp&quot;)
 setwd(&quot;./&quot;)
 write.table(hmp,file = &quot;test.hmp.txt&quot;,row.names = F,col.names = T,sep = &quot;\t&quot;,quote = F)
 
-## filtering 
+## filter 
 GSFiltering(input = &quot;test.hmp.txt&quot;, output = &quot;filter_res&quot;, 
             inputformat = &quot;hmp&quot;, missingRate = 0, 
             maf = 0.05,window = 100,step = 5,r2 = 0.1)
@@ -192,9 +192,9 @@ The function can only be used in G2P-sif that can execute imputation of genotypi
 <code>GSImputation(input, output, inputformat, workdir = "./", 
              memory = 8,threads = 1,window = 40,overlap = 2)</code></li>
 <li>Arguments<ul>
-<li><code>input</code>(character) name of original file, prefix for plink, full name for hapmap and vcf.</li>
+<li><code>input</code>(character) name of original file, prefix for plink, full name for Hapmap format and VCF format.</li>
 <li><code>output</code>(character) name of original file, prefix for all.</li>
-<li><code>inputformat</code>(character) file format of input file, "hmp" for hapmap,"vcf" VCF or "plink" for bed,bim,fam.</li>
+<li><code>inputformat</code>(character) file format of input file, "hmp" for hapmap,"vcf" VCF or "plink" for bed, bim, fam.</li>
 <li><code>memory</code>(numeric) set memory size, GB.</li>
 <li><code>threads</code>(numeric) specifies the number of computational threads that will be used.</li>
 <li><code>window</code>(numeric) specifies the cM length of each sliding window (default: 40).</li>
@@ -223,14 +223,14 @@ GSImputation(input = &quot;test_NA.hmp.txt&quot;, output = &quot;impute_res_NA&q
 <ul>
 <li><em><strong><code>GSRead</code></strong></em></li>
 <li>Description<br/>
-The function can only be used in G2P-sif that can fast read the larger genotypic data in PLINK HapMap and VCF format, convert it to numeric format (0 1 2) by calling Plink.</li>
+The function can only be used in G2P-sif that can fast read the larger genotypic data in PLINK Hapmap and VCF format, convert it to numeric format (0 1 2) by calling Plink.</li>
 <li>Usage <br/></li>
 </ul>
 <pre><code>GSRead(input, output, inputformat, workdir = &quot;./&quot;, memory = 8)
 </code></pre>
 <ul>
 <li>Arguments<ul>
-<li><code>input</code>(character) name of original file, prefix for plink, full name for hapmap and vcf.</li>
+<li><code>input</code>(character) name of original file, prefix for plink, full name for Hapmap format and VCF format.</li>
 <li><code>output</code>(character) name of original file, prefix for all.</li>
 <li><code>inputformat</code>(character) file format of input file, "hmp" for hapmap,"vcf" VCF or "plink" for bed,bim,fam.</li>
 <li><code>memory</code>(numeric) set memory size, GB.</li>
@@ -259,14 +259,13 @@ G[1:10,1:10]
 <ul>
 <li><em><strong><code>GSDataQC</code></strong></em></li>
 <li>Description<br/>
-The function can raduce genotypic data by calling Plink.</li>
+Function for summary and quality control of GS data.</li>
 <li>Usage <br/>
-<code>GSFiltering(input, output , 
-            inputformat = "hmp", missingRate = 0, 
-            maf = 0.05,window = 100,step = 5,r2 = 0.1)</code></li>
+<code>GSDataQC(markers, phenotype, impute = F, filter = F, NABound = 0.8,
+         MAFBound = 0.05, imputeMethod = "median",hete = 1,silent =F)</code></li>
 <li>Arguments<ul>
 <li><code>markers</code>(numeric, matrix) genotypic data, row represents sample and column represents SNP (feature). Missing (NA) alleles are allowed</li>
-<li><code>phenotype</code>(data.frame) the phenotype data. The first column must be the sample name.</li>
+<li><code>phenotype</code>(data.frame) phenotypic data. The first column must be the sample name.</li>
 <li><code>pheno</code>Phenotypic data frame, the first column describes sample IDs.</li>
 <li><code>impute</code>(logical) if TRUE, imputation, default FALSE.</li>
 <li><code>filter</code>(logical) if TRUE, filtering genotypic data with MAF and missing rate.</li>
@@ -280,7 +279,7 @@ The function can raduce genotypic data by calling Plink.</li>
 </li>
 </ul>
 <p>Example</p>
-<pre><code class="language-R">data(MZ)
+<pre><code class="language-R">data(&quot;cubic&quot;)
 ## generate missing value
 misIndex &lt;- sample(1:length(Markers),1000000)
 Markers[misIndex] &lt;- NA
@@ -389,14 +388,14 @@ C2Pres_fix &lt;- G2P(markers = Markers,data = data,trait = &quot;EW&quot;,output
 <ul>
 <li><em><strong><code>G2PCrossValidation</code></strong></em></li>
 <li>Description<br/>
-The function achieve cross-validation for integrated GS models.</li>
+The function achieves cross-validation for integrated GS models.</li>
 <li>Usage <br/>
 <code>G2PCrossValidation(cvSampleList = NULL,cross = 10,times = 1,
                        seed = 1,cpus = 1,markers,data,trait,modelMethods,...)</code></li>
 <li>Arguments<ul>
-<li><code>cvSampleList</code>(list) the specified cross-validation combination, or a list from function \code{\link{cvSampleIndex.Default NULL and execute a random grouping.</li>
-<li><code>cross</code>(integer) the fold of N-fold cross-validation. For example cross = 10 for 10-fold cross-validation.</li>
-<li><code>times</code>(integer) the times of repetition. For example, cross = 10 and times = 5 for five times 10-fold cross-validation.</li>
+<li><code>cvSampleList</code>(list) specified cross-validation combination, or a list from function \code{\link{cvSampleIndex.Default NULL and execute a random grouping.</li>
+<li><code>cross</code>(integer) fold of N-fold cross-validation. For example cross = 10 for 10-fold cross-validation.</li>
+<li><code>times</code>(integer) times of repetition. For example, cross = 10 and times = 5 for five times 10-fold cross-validation.</li>
 <li><code>seed</code>(integer) random seed for sampling of cross-validation.</li>
 <li><code>cpus</code>(integer) number of cpu cores to parallelizing cross-validation(only available in UNIX-like operating systems), default 1.</li>
 <li><code>markers</code>(numeric, matrix) row represents sample and column represents SNP (feature).Genotypes generally be coded as {0,1,2;0 represents AA(homozygote),2 represents BB(homozygote) and 1 represents AB(heterozygote); missing (NA) alleles are not allowed.</li>
@@ -420,7 +419,7 @@ predlist &lt;- G2PCrossValidation(cross = 5,seed = 1, cpus = 1, times = 2, marke
 <ul>
 <li><em><strong><code>G2PEvaluation</code></strong></em></li>
 <li>Description<br/>
-The function consolidates 13 evaluation metrics to evaluete the performance of genomic selection models.</li>
+The function consolidates 13 evaluation metrics to evaluate the performance of genomic selection models.</li>
 <li>Usage <br/>
 <code>G2PEvaluation(realScores, predScores, Probability = FALSE, evalMethod = "RE",
            Beta = 1, BestIndividuals = "top", topAlpha = 1:90,probIndex = NULL)</code></li>
@@ -458,8 +457,8 @@ The function provides a strategy to integrate the results of two or more methods
 <li>Usage <br/>
 <code>GSMerge(predResMat, ratio, autoOptimize = F)</code></li>
 <li>Arguments<ul>
-<li><code>predResMat</code>(numeric, matrix) the prediction results of algorithms which you want to merge, the first column is the real value of trait.</li>
-<li><code>ratio</code>(numeric,array) the weights of every algorithms.</li>
+<li><code>predResMat</code>(numeric, matrix) prediction results of algorithms which you want to merge, the first column is the real value of trait.</li>
+<li><code>ratio</code>(numeric,array) weights of every algorithms.</li>
 <li><code>autoOptimize</code>(logical) if true, two group results of methods from multiple-results will be selected and then get average (wight 1:1), default FALSE.
 <br/></li>
 </ul>
@@ -488,12 +487,12 @@ Results integration of multiple GS methods</li>
 <li>Usage <br/>
 <code>GSEnsemble(predMat, nrandom = 10, evalMethods, by = 0.1, evaluation = T, topAlpha = 15)</code></li>
 <li>Arguments<ul>
-<li><code>predMat</code>(numeric, matrix) the prediction results of algorithms which you want to merge, the first column is the real value of trait.</li>
-<li><code>nrandom</code>(integer) the repeat number of stacking, default 10.</li>
+<li><code>predMat</code>(numeric, matrix) prediction results of algorithms which you want to merge, the first column is the real value of trait.</li>
+<li><code>nrandom</code>(integer) repeat number of stacking, default 10.</li>
 <li><code>evalMethods</code>(character) ensemble base which evaluation methods.</li>
-<li><code>by</code>(numeric,(0,1)) the radio window of ensemble, the smaller "by", the higher accuracy of ensemble. Default 0.1.</li>
+<li><code>by</code>(numeric,(0,1)) window of ensemble, the smaller "by", the higher accuracy of ensemble. Default 0.1.</li>
 <li><code>evaluation</code>(logical) if evaluate finalMat with evalMethods, default TRUE.</li>
-<li><code>topAlpha</code>(numeric) the parameter of threshold evaluation methods, see also function evaluateGS. In this function, indicates the best ensemble base threshold when evalMethods is threshold methods.
+<li><code>topAlpha</code>(numeric) parameter of threshold evaluation methods, see also function evaluateGS. In this function, indicates the best ensemble base threshold when evalMethods is threshold methods.
 <br/></li>
 </ul>
 </li>
@@ -518,11 +517,11 @@ G2PresNew &lt;- G2P(markers = Markers,data = pheData,trait = &quot;EW&quot;,
 ## apply GSEnsemble rotio to new prediction ##                       
 GSEnsembleModelRes &lt;- GSMerge(predResMat = G2PresNew,ratio = GSEnsembleRes$BestWeight, autoOptimize = F)
 </code></pre>
-<h2 id="refinement-design-of-training-dataset">Refinement design of training dataset</h2>
+<h2 id="refinement-design-of-training-set">Refinement design of training set</h2>
 <ul>
 <li><em><strong><code>TSRefine</code></strong></em></li>
 <li>Description<br/>
-Refining the training set for selective phenotyping to reduce cost.</li>
+The function can reduce the cost of phenotyping through refining the training set.</li>
 <li>Usage <br/>
 <code>TSRefine(markers,candidates,test = NULL,ntosel,method = "PEVmean",
          npop = 100, nelite =5 ,mutprob = .8,niterations = 500,
@@ -585,7 +584,7 @@ TSR_PEVmean &lt;- TSRefine(markers = G, method = &quot;PEVmean&quot;, candidates
   <span class="rst-current-version" data-toggle="rst-current-version">
     
         <span>
-          <a href="https://github.com/GOVS-env/G2P/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+          <a href="https://github.com/G2P-env/G2P/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
         </span>
     
     
